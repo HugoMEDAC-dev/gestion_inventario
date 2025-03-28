@@ -25,6 +25,8 @@ class TabbarNav extends StatelessWidget {
               borderRadius: BorderRadius.circular(50),
             ),
             labelColor: const Color(0xFFFFFFFF),
+            splashFactory: NoSplash.splashFactory,
+            overlayColor: MaterialStateProperty.all(Colors.transparent),
             tabs: [
               Tab(icon: Icon(Icons.home)),
               Tab(icon: Icon(Icons.search)),
