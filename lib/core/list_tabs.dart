@@ -3,11 +3,6 @@ import 'package:flutter_application_1/core/app_colors.dart';
 
 class TabbarNav extends StatelessWidget {
   const TabbarNav({super.key});
-  static const textStyle = TextStyle(
-    fontSize: 20,
-    fontWeight: FontWeight.w500,
-    color: AppColors.textColor,
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +20,8 @@ class TabbarNav extends StatelessWidget {
               borderRadius: BorderRadius.circular(50),
             ),
             labelColor: const Color(0xFFFFFFFF),
+            splashFactory: NoSplash.splashFactory,
+            overlayColor: MaterialStateProperty.all(Colors.transparent),
             tabs: [
               Tab(icon: Icon(Icons.home)),
               Tab(icon: Icon(Icons.search)),
