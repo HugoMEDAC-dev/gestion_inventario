@@ -3,23 +3,41 @@ import 'package:flutter_application_1/core/app_colors.dart';
 
 class TabbarNav extends StatelessWidget {
   const TabbarNav({super.key});
+  static const textStyle = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w500,
+    color: AppColors.textColor,
+  );
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      initialIndex: 1,
       length: 3,
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppColors.backgroundComponent,
-          title: const Text('PepeComponentes'),
-          bottom: const TabBar(
-            tabs: <Widget>[
+        bottomNavigationBar: BottomAppBar(
+          child: TabBar(
+            indicatorSize: TabBarIndicatorSize.tab,
+            indicator: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [AppColors.buttonGradient1, AppColors.buttonGradient2],
+              ),
+              color: AppColors.backgroundComponent,
+              borderRadius: BorderRadius.circular(50),
+            ),
+            labelColor: const Color(0xFFFFFFFF),
+            tabs: [
               Tab(icon: Icon(Icons.home)),
               Tab(icon: Icon(Icons.search)),
               Tab(icon: Icon(Icons.shopping_cart)),
             ],
           ),
+        ),
+        body: TabBarView(
+          children: [
+            Center(child: Text("Prueba HOME")),
+            Center(child: Text("Prueba Busqueda")),
+            Center(child: Text("Prueba Carrito de Compras")),
+          ],
         ),
       ),
     );
