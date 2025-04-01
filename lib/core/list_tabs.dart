@@ -12,7 +12,6 @@ class TabbarNav extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Tabbar con Modo Oscuro"),
           actions: [
             IconButton(
               icon: Icon(Icons.brightness_6),
