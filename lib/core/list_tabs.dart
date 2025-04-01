@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/core/app_colors.dart';
-import 'package:flutter_application_1/themes/dark_mode.dart';
-import 'package:flutter_application_1/themes/light_mode.dart';
 import 'package:provider/provider.dart';
 
 class TabbarNav extends StatelessWidget {
