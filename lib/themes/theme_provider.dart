@@ -21,4 +21,6 @@ class ThemeProvider extends ChangeNotifier {
       themeData = lightmode;
     }
   }
+
+  static of(BuildContext context) {}
 }

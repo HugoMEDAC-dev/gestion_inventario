@@ -1,25 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/app_colors.dart';
+import 'package:flutter_application_1/themes/dark_mode.dart';
+import 'package:flutter_application_1/themes/light_mode.dart';
+import 'package:provider/provider.dart';
 
 class TabbarNav extends StatelessWidget {
   const TabbarNav({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = ThemeProvider.of(context);
+
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        appBar: AppBar(
+          title: Text("Tabbar con Modo Oscuro"),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.brightness_6),
+              onPressed: () {
+                themeProvider.toggleTheme();
+              },
+            ),
+          ],
+          iconTheme: IconThemeData(
+            color:
+                themeProvider.isDarkMode
+                    ? Colors.white
+                    : Colors.black, // Cambia el color según el modo
+          ),
+        ),
         bottomNavigationBar: BottomAppBar(
           child: TabBar(
             indicatorSize: TabBarIndicatorSize.tab,
             indicator: BoxDecoration(
               gradient: LinearGradient(
-                colors: [AppColors.buttonGradient1, AppColors.buttonGradient2],
+                colors: [Colors.blue, const Color(0xFF3425B8)],
               ),
-              color: AppColors.backgroundComponent,
               borderRadius: BorderRadius.circular(50),
             ),
-            labelColor: const Color(0xFFFFFFFF),
+            labelColor: themeProvider.isDarkMode ? Colors.white : Colors.black,
             splashFactory: NoSplash.splashFactory,
             overlayColor: MaterialStateProperty.all(Colors.transparent),
             tabs: [
@@ -40,3 +61,34 @@ class TabbarNav extends StatelessWidget {
     );
   }
 }
+
+class ThemeProvider extends ChangeNotifier {
+  ThemeData _themeData = lightMode;
+
+  ThemeData get themeData => _themeData;
+
+  bool get isDarkMode => _themeData == darkMode;
+
+  set themeData(ThemeData themedata) {
+    _themeData = themedata; // Aquí usamos el parámetro
+    notifyListeners();
+  }
+
+  void toggleTheme() {
+    themeData = (_themeData == lightMode) ? darkMode : lightMode;
+  }
+
+  static ThemeProvider of(BuildContext context) {
+    return context.read<ThemeProvider>();
+  }
+}
+
+final ThemeData lightMode = ThemeData(
+  brightness: Brightness.light,
+  primarySwatch: Colors.blue,
+);
+
+final ThemeData darkMode = ThemeData(
+  brightness: Brightness.dark,
+  primarySwatch: Colors.blue,
+);
