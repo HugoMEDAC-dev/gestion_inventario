@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/app_colors.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../home_screen.dart'; // Ruta a la pantalla principal después del registro
+import 'package:flutter_application_1/core/firebase/auth_service.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -18,75 +17,67 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   bool _isLoading = false;
 
-  // Función de registro con Firebase (descomentar cuando esté implementado)
+  // Función de registro con Firebase utilizando el servicio AuthService
   Future<void> _registerUser() async {
     if (!_formKey.currentState!.validate()) return;
 
     setState(() {
-      _isLoading = true;
+      _isLoading = true; // Muestra el indicador de carga mientras se registra
     });
 
     try {
-      // Intenta registrar al usuario con email y password
-      UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-            email: _emailController.text.trim(),
-            password: _passwordController.text.trim(),
-          );
+      // Creamos una instancia del servicio de autenticación
+      final authService = AuthService();
 
-      User? user = userCredential.user;
+      // Registramos el usuario con email y contraseña
+      await authService.registerUser(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
 
-      // Añade los datos del usuario a la colección 'users' en Firestore
-      await FirebaseFirestore.instance.collection('users').doc(user!.uid).set({
-        'uid': user.uid,
-        'email': _emailController.text.trim(),
-        'role': 'user', // Por defecto los nuevos usuarios son normales
-      });
-
-      // Verifica que el widget sigue montado en pantalla antes de usar el context
+      // Verificamos que el widget sigue montado
       if (!mounted) return;
 
-      // Muestra un mensaje tipo SnackBar cuando el usuario se registra correctamente
+      // Mostramos mensaje de éxito
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Usuario registrado con éxito')),
       );
 
-      // Redirige a la pantalla principal (HomeScreen)
-      Navigator.pushReplacement(
+      // Redirigimos al panel de usuario después del registro
+      Navigator.pushReplacementNamed(
         context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
+        '/user-dashboard', // Ruta nombrada al dashboard del usuario
       );
-      // Manejamos los errores comunes de registro con mensajes específicos
     } on FirebaseAuthException catch (e) {
       if (!mounted) return;
 
-      // Manejamos los errores comunes de registro con mensajes específicos
+      // Manejamos errores comunes de registro con mensajes específicos
       String message;
       switch (e.code) {
         case 'email-already-in-use':
-          message =
-              'El correo ya está en uso'; // Ya existe un usuario con ese correo
+          message = 'El correo ya está en uso';
           break;
         case 'weak-password':
-          message =
-              'La contraseña es demasiado débil'; // No cumple los requisitos mínimos
+          message = 'La contraseña es demasiado débil';
           break;
         case 'invalid-email':
-          message = 'Correo no válido'; // Formato incorrecto
+          message = 'Correo no válido';
           break;
         default:
-          message =
-              'Error inesperado: ${e.message}'; // Otros errores no previstos
+          message = 'Error inesperado: ${e.message}';
       }
 
-      // Mostramos el mensaje de error con SnackBar (mensaje inferior que desaparece solo)
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(message)));
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error al registrar usuario: ${e.toString()}')),
+      );
     } finally {
-      // Actualiza el estado para ocultar el indicador de carga
       setState(() {
-        _isLoading = false;
+        _isLoading = false; // Ocultamos el indicador de carga
       });
     }
   }

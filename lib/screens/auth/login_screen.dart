@@ -1,11 +1,9 @@
 // ignore_for_file: library_private_types_in_public_api
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/app_colors.dart';
 import 'package:firebase_auth/firebase_auth.dart'; // Necesario para login real
-import 'package:flutter_application_1/screens/home_screen.dart';
-import 'package:flutter_application_1/screens/auth/register_screen_.dart'; // Importamos la pantalla de registro
+import 'package:flutter_application_1/core/firebase/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -23,55 +21,38 @@ class _LoginScreenState extends State<LoginScreen> {
   // Clave para validar el formulario antes de enviar
   final _formKey = GlobalKey<FormState>();
 
-  // Método para iniciar sesión con Firebase Auth y redirigir según el rol
+  // Método para iniciar sesión con Firebase Auth y redirigir según si es admin o no
   Future<void> _loginUser() async {
     setState(() {
       _isLoading = true; // Muestra un indicador de carga mientras se autentica
     });
 
     try {
-      // Autenticamos al usuario con Firebase Authentication
-      UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-            email: emailController.text.trim(),
-            password: passwordController.text.trim(),
-          );
+      // Creamos una instancia del servicio de autenticación
+      final authService = AuthService();
 
-      User? user = userCredential.user;
+      // Iniciamos sesión con email y contraseña usando el servicio
+      final user = await authService.loginUser(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
 
       if (user != null) {
-        // Consultamos Firestore para obtener el rol del usuario
-        final doc =
-            await FirebaseFirestore.instance
-                .collection('users')
-                .doc(user.uid)
-                .get();
+        // Obtenemos si el usuario es administrador usando el campo booleano 'isAdmin'
+        final isAdmin = await authService.isAdminUser(user.uid);
 
-        if (doc.exists) {
-          final data = doc.data();
-          final role = data?['role'];
-
-          // Redireccionamos según el rol del usuario
-          if (role == 'admin') {
-            if (!mounted) return; // Verifica si el widget sigue montado
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const HomeScreen()),
-            );
-          } else {
-            if (!mounted) return; // Verifica si el widget sigue montado
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const HomeScreen()),
-            );
-          }
+        // Redireccionamos según el tipo de usuario que inicie sesión
+        if (isAdmin) {
+          if (!mounted) return; // Verifica si el widget sigue montado
+          Navigator.pushReplacementNamed(
+            context,
+            '/admin-dashboard', // Ruta nombrada del panel de administrador
+          );
         } else {
-          // No se encontró documento para este usuario
-          if (!mounted) return;
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('No se encontró el perfil del usuario'),
-            ),
+          if (!mounted) return; // Verifica si el widget sigue montado
+          Navigator.pushReplacementNamed(
+            context,
+            '/user-dashboard', // Ruta nombrada del panel de usuario
           );
         }
       }
@@ -91,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
         default:
           message = 'Error inesperado: ${e.message}';
       }
-      // Verificamos que el widget siga montado
+
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
@@ -251,11 +232,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 // Botón de texto que lleva a la pantalla de registro
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushNamed(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => const RegisterScreen(),
-                      ),
+                      '/register', // Ruta nombrada de la pantalla de registro
                     );
                   },
                   child: const Text(
