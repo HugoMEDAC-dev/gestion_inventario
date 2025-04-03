@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "112440612335",
+    "project_id": "gestioninventariofpdam",
+    "storage_bucket": "gestioninventariofpdam.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:112440612335:android:4edd877ce75b41be5f121a",
+        "android_client_info": {
+          "package_name": "com.example.gestion_inventario1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUIGjJEdmAS_P3TTV0ZGTSUkwdEDbnPzI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
