@@ -5,13 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/app_colors.dart';
 import 'package:flutter_application_1/screens/auth/carrito_screen.dart';
 
-<<<<<<< HEAD:lib/screens/home_screen.dart
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-=======
 class UserDashboard extends StatefulWidget {
   const UserDashboard({super.key});
->>>>>>> 755898d0b9a01011db58e3d0228bbb889b5fb935:lib/screens/dashboards/user_dashboard.dart
 
   @override
   _UserDashboard createState() => _UserDashboard();
