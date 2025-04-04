@@ -1,29 +1,26 @@
-
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/app_colors.dart';
-import 'package:flutter_application_1/screens/auth/carrito_screen.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class AdminDashboard extends StatefulWidget {
+  const AdminDashboard({super.key});
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<AdminDashboard> createState() => _AdminDashboardState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _AdminDashboardState extends State<AdminDashboard> {
   int _selectedIndex = 0; // Controla qué pestaña está activa
-  bool _isDarkMode = false; // Activa/desactiva modo oscuro
+  bool _isDarkMode = false; // Alterna entre modo claro y oscuro
 
-  // Contenido de cada pestaña. La pestaña de carrito ahora carga directamente CarritoScreen()
+  // Lista de páginas para cada pestaña (Productos, Gestión, Incidencias)
   static final List<Widget> _pages = <Widget>[
-    _buildPage(Icons.home, "Inicio"),
-    _buildPage(Icons.search, "Buscar"),
-    CarritoScreen(), // Aquí cargamos la pantalla del carrito
+    _buildPage(Icons.inventory_2, "Productos"),
+    _buildPage(Icons.settings, "Gestión"),
+    _buildPage(Icons.report_problem, "Incidencias"),
   ];
 
-  // Método estático para generar una vista bonita para cada pestaña
+  // Construye el contenido visual de cada pestaña con icono y texto
   static Widget _buildPage(IconData icon, String label) {
     return Center(
       child: Column(
@@ -31,20 +28,23 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Icon(icon, size: 80, color: Colors.white),
           const SizedBox(height: 16),
-          Text(label, style: const TextStyle(fontSize: 24, color: Colors.white)),
+          Text(
+            label,
+            style: const TextStyle(fontSize: 24, color: Colors.white),
+          ),
         ],
       ),
     );
   }
 
-  // Cambia el índice al tocar una opción del BottomNavigationBar
+  // Controlador de navegación por pestañas
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
 
-  // Cambia entre modo claro y oscuro
+  // Alterna el modo oscuro/normal
   void _toggleDarkMode() {
     setState(() {
       _isDarkMode = !_isDarkMode;
@@ -56,62 +56,68 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Gestión Inventario",
+          "Panel de Administración",
           style: TextStyle(
-            color: Colors.white, // Texto blanco
-            fontSize: 22, // Tamaño más grande
-            fontWeight: FontWeight.bold, // Negrita para destacar
-            letterSpacing: 1.0, // Espaciado entre letras para elegancia
+            color: Colors.white,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1.0,
           ),
         ),
-        centerTitle: true, // Esto centra el título en la AppBar
+        centerTitle: true,
+        backgroundColor: AppColors.appBarColor,
         actions: [
+          // Alternador de modo oscuro
           IconButton(
             icon: Icon(_isDarkMode ? Icons.dark_mode : Icons.light_mode),
             onPressed: _toggleDarkMode,
           ),
+          // Cerrar sesión
           IconButton(
             icon: const Icon(Icons.logout),
             tooltip: 'Cerrar sesión',
             onPressed: () async {
-              await FirebaseAuth.instance.signOut(); // Cierra sesión del usuario
+              await FirebaseAuth.instance.signOut();
               if (!context.mounted) return;
               Navigator.pushReplacementNamed(context, '/login');
             },
           ),
         ],
-        backgroundColor: AppColors.appBarColor,
       ),
 
-      // Cuerpo de la pantalla con fondo gradiente según modo
+      // Fondo visual dinámico según el modo oscuro o claro
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: _isDarkMode
-                ? [Colors.blueGrey.shade700, Colors.blueGrey.shade900]
-                : [Colors.blue.shade300, Colors.blue.shade800],
+            colors:
+                _isDarkMode
+                    ? [Colors.blueGrey.shade700, Colors.blueGrey.shade900]
+                    : [Colors.blue.shade300, Colors.blue.shade800],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
         ),
-        child: _pages[_selectedIndex], // Muestra la página activa
+        child: _pages[_selectedIndex], // Muestra la pestaña seleccionada
       ),
 
-      // Barra inferior de navegación
+      // Barra inferior de navegación con íconos
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Inicio'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Buscar'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: 'Carrito',
+            icon: Icon(Icons.inventory_2),
+            label: 'Productos',
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Gestión'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.report_problem),
+            label: 'Incidencias',
           ),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white70,
         backgroundColor: Colors.blueAccent,
-        onTap: _onItemTapped, // Cambia de pestaña al tocar ícono
+        onTap: _onItemTapped,
       ),
     );
   }
