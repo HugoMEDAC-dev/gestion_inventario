@@ -1,8 +1,9 @@
-// ignore_for_file: library_private_types_in_public_api
+
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/app_colors.dart';
+import 'package:flutter_application_1/screens/auth/carrito_screen.dart';
 
 class UserDashboard extends StatefulWidget {
   const UserDashboard({super.key});
@@ -15,11 +16,11 @@ class _UserDashboard extends State<UserDashboard> {
   int _selectedIndex = 0; // Controla qué pestaña está activa
   bool _isDarkMode = false; // Activa/desactiva modo oscuro
 
-  // Contenido de cada pestaña. Puedes reemplazar luego por pantallas reales
+  // Contenido de cada pestaña. La pestaña de carrito ahora carga directamente CarritoScreen()
   static final List<Widget> _pages = <Widget>[
     _buildPage(Icons.home, "Inicio"),
     _buildPage(Icons.search, "Buscar"),
-    _buildPage(Icons.shopping_cart, "Carrito"),
+    CarritoScreen(), // Aquí cargamos la pantalla del carrito
   ];
 
   // Método estático para generar una vista bonita para cada pestaña
@@ -29,8 +30,8 @@ class _UserDashboard extends State<UserDashboard> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(icon, size: 80, color: Colors.white),
-          SizedBox(height: 16),
-          Text(label, style: TextStyle(fontSize: 24, color: Colors.white)),
+          const SizedBox(height: 16),
+          Text(label, style: const TextStyle(fontSize: 24, color: Colors.white)),
         ],
       ),
     );
@@ -65,19 +66,15 @@ class _UserDashboard extends State<UserDashboard> {
         ),
         centerTitle: true, // Esto centra el título en la AppBar
         actions: [
-          // Botón para alternar entre modo claro y oscuro
           IconButton(
             icon: Icon(_isDarkMode ? Icons.dark_mode : Icons.light_mode),
             onPressed: _toggleDarkMode,
           ),
-          // Botón para cerrar sesión y volver al login
           IconButton(
             icon: const Icon(Icons.logout),
             tooltip: 'Cerrar sesión',
             onPressed: () async {
-              await FirebaseAuth.instance
-                  .signOut(); // Cierra sesión del usuario
-              // Navega de vuelta a la pantalla de login
+              await FirebaseAuth.instance.signOut(); // Cierra sesión del usuario
               if (!context.mounted) return;
               Navigator.pushReplacementNamed(context, '/login');
             },
@@ -90,10 +87,9 @@ class _UserDashboard extends State<UserDashboard> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors:
-                _isDarkMode
-                    ? [Colors.blueGrey.shade700, Colors.blueGrey.shade900]
-                    : [Colors.blue.shade300, Colors.blue.shade800],
+            colors: _isDarkMode
+                ? [Colors.blueGrey.shade700, Colors.blueGrey.shade900]
+                : [Colors.blue.shade300, Colors.blue.shade800],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
