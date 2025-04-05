@@ -6,7 +6,7 @@ class CarritoScreen extends StatefulWidget {
 }
 
 class _CarritoScreenState extends State<CarritoScreen> {
-  List<String> carrito = ['placa base']; // Lista de productos en el carrito
+  List<String> carrito = ['placa base','monitor','procesador']; // Lista de productos en el carrito
 
   @override
   Widget build(BuildContext context) {
