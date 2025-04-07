@@ -12,11 +12,11 @@ buildscript {
     }
 
 
-    dependencies {
-        add("classpath", "com.android.tools.build:gradle:8.0.0")
-        add("classpath", "com.google.gms:google-services:4.4.2") 
-        add("classpath", "org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.20")
-    }
+dependencies {
+    classpath("com.google.gms:google-services:4.4.2") 
+    implementation(platform("com.google.firebase:firebase-bom:33.12.0"))
+    implementation("com.google.firebase:firebase-inappmessaging-display")
+    implementation("com.google.fiebase:firebase-analytics")
 }
 
 
