@@ -3,7 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/app_colors.dart';
-import 'package:flutter_application_1/screens/auth/carrito_screen.dart';
+import 'package:flutter_application_1/screens/login/carrito_screen.dart';
 
 class UserDashboard extends StatefulWidget {
   const UserDashboard({super.key});
