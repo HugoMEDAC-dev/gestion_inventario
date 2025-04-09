@@ -30,6 +30,19 @@ class AppColors {
     Puedes experimentar con tonos como 0xFF1565C0 o 0xFF0D47A1 si lo quieres más profundo.
   */
 
+  // Paleta opcional para pestañas del panel administrador
+  static const Color adminMenuBackground = Color(0xFF2A3B8F); // Azul oscuro
+  static const Color adminAccent = Color(
+    0xFFB3E5FC,
+  ); // Azul claro para iconos o highlights
+
+  // 🎨 Colores opcionales adicionales para sección de administración
+  static const Color adminCard = Color(0xFFF0F4FF); // Fondo suave para tarjetas
+  static const Color adminHeader = Color(0xFF1B2E73); // Fondo para encabezados
+  static const Color adminDivider = Color(
+    0xFFB0BEC5,
+  ); // Líneas separadoras suaves
+
   final ThemeData appTheme = ThemeData(
     primaryColor: AppColors.primary,
     scaffoldBackgroundColor: AppColors.background,
