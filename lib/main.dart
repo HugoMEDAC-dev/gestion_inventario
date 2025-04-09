@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart'; // Necesario para inicializar Firebase
+import 'package:flutter_application_1/screens/admin_dashboards/admin_dashboard.dart';
 import 'package:flutter_application_1/screens/login/register_screen_.dart';
-import 'package:flutter_application_1/screens/admi_dashboards/admin_dashboard.dart';
-import 'package:flutter_application_1/screens/admi_dashboards/user_dashboard.dart';
+import 'package:flutter_application_1/screens/user_dashboards/user_dashboard.dart';
 import 'screens/login/login_screen.dart'; // Importa la pantalla de login (pantalla inicial)
 import 'firebase_options.dart'; // Archivo generado por FlutterFire CLI
 

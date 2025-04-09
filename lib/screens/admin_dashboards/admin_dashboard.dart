@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/app_colors.dart';
-import 'package:flutter_application_1/screens/dashboards/admin_tabs/productos_tab.dart';
+import 'package:flutter_application_1/screens/admin_dashboards/productos_tab.dart';
 
 class AdminDashboard extends StatefulWidget {
   const AdminDashboard({super.key});
