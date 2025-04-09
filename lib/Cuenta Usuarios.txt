@@ -1,0 +1,12 @@
+Cuenta Usuarios:
+Admin:
+admin@email.es
+Password: a1b2c3d4
+
+User01:
+user01@email.es
+Password: 4a3b2c1d
+
+User02:
+user02@email.es
+Password:1234abc
