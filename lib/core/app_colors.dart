@@ -36,12 +36,17 @@ class AppColors {
     0xFFB3E5FC,
   ); // Azul claro para iconos o highlights
 
-  // 🎨 Colores opcionales adicionales para sección de administración
+  // Colores opcionales adicionales para sección de administración
   static const Color adminCard = Color(0xFFF0F4FF); // Fondo suave para tarjetas
   static const Color adminHeader = Color(0xFF1B2E73); // Fondo para encabezados
   static const Color adminDivider = Color(
     0xFFB0BEC5,
   ); // Líneas separadoras suaves
+
+  // Colores para la pestaña de Gestión, Admin Dashboard
+  static const Color formLabelColor = Color(
+    0xFF0D1B2A,
+  ); // 🔷 Azul grisáceo elegante para etiquetas
 
   final ThemeData appTheme = ThemeData(
     primaryColor: AppColors.primary,
