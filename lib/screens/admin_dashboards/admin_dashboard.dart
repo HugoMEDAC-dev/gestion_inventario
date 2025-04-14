@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/core/app_colors.dart';
-import 'package:flutter_application_1/screens/admin_dashboards/productos_tab.dart';
+import 'package:flutter_application_1/screens/admin_dashboards/gestion/gestion_tab.dart';
+import 'package:flutter_application_1/screens/admin_dashboards/productos/productos_tab.dart';
 
 class AdminDashboard extends StatefulWidget {
   const AdminDashboard({super.key});
@@ -16,8 +17,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
   // 🧩 Lista de pestañas del panel admin: cada una cargada desde archivos modulares
   static final List<Widget> _pages = <Widget>[
-    const ProductosTab(), // Reemplaza ícono por el widget real conectado a Firestore
-    _buildPage(Icons.settings, "Gestión"), // (Pendiente de implementación)
+    const ProductosTab(), // Pestaña de Productos
+    const GestionTab(), // Pestaña de Gestión
     _buildPage(
       Icons.report_problem,
       "Incidencias",
